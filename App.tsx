@@ -5,16 +5,11 @@
  * @format
  */
 
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
-import {
-  Appbar,
-  PaperProvider,
-  Button,
-  Card,
-  Text,
-  MD3DarkTheme as DefaultTheme,
-} from 'react-native-paper';
+import {PaperProvider, MD3DarkTheme as DefaultTheme} from 'react-native-paper';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Home from './src/components/Home';
 
 const theme = {
   ...DefaultTheme,
@@ -24,49 +19,18 @@ const theme = {
   },
 };
 
+const Stack = createNativeStackNavigator();
+
 function App(): JSX.Element {
   return (
     <PaperProvider theme={theme}>
-      <Appbar.Header>
-        <Text>SpotNet</Text>
-      </Appbar.Header>
-      <ScrollView style={styles.container}>
-        <Card style={styles.card}>
-          <Card.Title title="Card Title" />
-          <Card.Content>
-            <Text variant="bodyMedium">Card content</Text>
-          </Card.Content>
-          <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
-          <Card.Actions>
-            <Button>Cancel</Button>
-            <Button>Ok</Button>
-          </Card.Actions>
-        </Card>
-        <Card style={styles.card}>
-          <Card.Title title="Card Title" />
-          <Card.Content>
-            <Text variant="bodyMedium">Card content</Text>
-          </Card.Content>
-          <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
-          <Card.Actions>
-            <Button>Cancel</Button>
-            <Button>Ok</Button>
-          </Card.Actions>
-        </Card>
-      </ScrollView>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-  },
-  card: {
-    borderWidth: 1,
-    padding: 5,
-    marginBottom: 10,
-  },
-});
 
 export default App;
