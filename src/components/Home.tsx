@@ -5,11 +5,25 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {Button, Card, Text} from 'react-native-paper';
 
 const Home = (): JSX.Element => {
+  const [picture, setPicture] = useState<string | undefined>();
+  const openLibrary = () => {
+    launchImageLibrary({
+      mediaType: 'photo',
+      maxWidth: 500,
+      includeBase64: true,
+    }).then(response => {
+      if (response.assets) {
+        setPicture(response.assets[0].base64);
+      }
+    });
+  };
+
   return (
     <View>
       <ScrollView style={styles.container}>
@@ -18,10 +32,9 @@ const Home = (): JSX.Element => {
           <Card.Content>
             <Text variant="bodyMedium">Card content</Text>
           </Card.Content>
-          <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
+          <Card.Cover source={{uri: `data:image/png;base64,${picture}`}} />
           <Card.Actions>
-            <Button>Cancel</Button>
-            <Button>Ok</Button>
+            <Button onPress={() => openLibrary()}>Change Image</Button>
           </Card.Actions>
         </Card>
         <Card style={styles.card}>
@@ -31,8 +44,7 @@ const Home = (): JSX.Element => {
           </Card.Content>
           <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
           <Card.Actions>
-            <Button>Cancel</Button>
-            <Button>Ok</Button>
+            <Button onPress={() => openLibrary()}>Change Image</Button>
           </Card.Actions>
         </Card>
       </ScrollView>
