@@ -7,46 +7,48 @@
 
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {Button, Card, Text} from 'react-native-paper';
+import MapView, {Marker} from 'react-native-maps';
+import {Button} from 'react-native-paper';
 
 const Home = (): JSX.Element => {
-  const [picture, setPicture] = useState<string | undefined>();
-  const openLibrary = () => {
-    launchImageLibrary({
-      mediaType: 'photo',
-      maxWidth: 500,
-      includeBase64: true,
-    }).then(response => {
-      if (response.assets) {
-        setPicture(response.assets[0].base64);
-      }
-    });
+  const [markers, setMarkers] = useState([
+    {
+      latitude: 37.78825,
+      longitude: -122.4324,
+    },
+  ]);
+
+  const addMarker = () => {
+    setMarkers([
+      ...markers,
+      {
+        latitude: 37.7694208,
+        longitude: -122.4887887,
+      },
+    ]);
   };
 
   return (
     <View>
       <ScrollView style={styles.container}>
-        <Card style={styles.card}>
-          <Card.Title title="Card Title" />
-          <Card.Content>
-            <Text variant="bodyMedium">Card content</Text>
-          </Card.Content>
-          <Card.Cover source={{uri: `data:image/png;base64,${picture}`}} />
-          <Card.Actions>
-            <Button onPress={() => openLibrary()}>Change Image</Button>
-          </Card.Actions>
-        </Card>
-        <Card style={styles.card}>
-          <Card.Title title="Card Title" />
-          <Card.Content>
-            <Text variant="bodyMedium">Card content</Text>
-          </Card.Content>
-          <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
-          <Card.Actions>
-            <Button onPress={() => openLibrary()}>Change Image</Button>
-          </Card.Actions>
-        </Card>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}>
+          {markers.map((marker, index) => (
+            <Marker
+              key={index}
+              coordinate={{...marker}}
+              title="Content"
+              description="It's a new content"
+            />
+          ))}
+        </MapView>
+        <Button onPress={addMarker}>Add marker</Button>
       </ScrollView>
     </View>
   );
@@ -60,6 +62,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 5,
     marginBottom: 10,
+  },
+  map: {
+    width: '100%',
+    height: 500,
   },
 });
 
