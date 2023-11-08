@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: '100%',
-    height: 500,
+    height: 450,
   },
 });
 
