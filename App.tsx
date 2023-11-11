@@ -13,6 +13,7 @@ import Home from './src/components/Home';
 import HeaderTitle from './src/components/HeaderTitle';
 import HeaderRight from './src/components/HeaderRight';
 import Menu from './src/components/Menu';
+import HomeAndroid from './src/components/HomeAndroid';
 
 const theme = {
   ...DefaultTheme,
@@ -34,7 +35,7 @@ function App(): JSX.Element {
             headerTitle: HeaderTitle,
             headerRight: HeaderRight,
           }}>
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Home" component={HomeAndroid} />
           <Stack.Screen name="Menu" component={Menu} />
         </Stack.Navigator>
       </NavigationContainer>
